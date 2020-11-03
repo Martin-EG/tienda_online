@@ -28,3 +28,62 @@
 .xm-5{
     margin: auto 15px;
 }
+
+
+.xb-6{
+    margin-bottom: 30px;
+}
+
+.xt-5{
+    margin-top: 15px;
+}
+
+.nav-extended img{
+    height: 55px;
+    margin: 5px auto;
+}
+
+.sidenav{
+    text-align: center;
+}
+.sidenav img{
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.card .card-title{
+    font-size: 16px;
+    font-weight: 500;
+}
+.card .card-price{
+    font-size: 16px;
+}
+.submenu {
+    position: relative;
+}
+
+.submenu #carrito{
+    display: none;
+}
+.submenu:hover #carrito{
+    display: block;
+    position: absolute;
+    right:0;
+    color: #000;
+    top:100%;
+    z-index: 10;
+    background-color: white;
+    padding: 10px;
+    height: auto;
+    /* min-height: 400px; */
+    min-width: 400px;
+}
+
+#lista-carrito td, #lista-carrito th{
+    padding: 0 5px;
+    line-height: 20px;
+}
+
+#lista-carrito .qty {
+    text-align: center;
+}
