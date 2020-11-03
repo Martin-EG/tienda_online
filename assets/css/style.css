@@ -1,53 +1,62 @@
 .xp-1 {
-    padding: 0 3px;
+    padding: 0 3px!important;
 }
 
 .xp-2 {
-    padding: 0 8px;
+    padding: 0 8px!important;
 }
 
 .xp-3 {
-    padding: 0 10px;
+    padding: 0 10px!important;
 }
 
 .xp-4 {
-    padding: 0 13px;
+    padding: 0 13px!important;
 }
 
 .xp-5 {
-    padding: 0 15px;
+    padding: 0 15px!important;
 }
 
 .xm-1 {
-    margin: auto 3px;
+    margin: auto 3px!important;
 }
 
 .xm-2 {
-    margin: auto 8px;
+    margin: auto 8px!important;
 }
 
 .xm-3 {
-    margin: auto 10px;
+    margin: auto 10px!important;
 }
 
 .xm-4 {
-    margin: auto 13px;
+    margin: auto 13px!important;
 }
 
 .xm-5 {
-    margin: auto 15px;
+    margin: auto 15px!important;
 }
 
+.bm-1 {
+    margin-bottom: 3px!important;
+}
 .bm-5 {
-    margin-bottom: 15px;
+    margin-bottom: 15px!important;
 }
 
 .bm-6 {
-    margin-bottom: 30px;
+    margin-bottom: 30px!important;
 }
 
+.tm-1 {
+    margin-top: 3px!important;
+}
+.tm-2 {
+    margin-top: 5px!important;
+}
 .tm-5 {
-    margin-top: 15px;
+    margin-top: 15px!important;
 }
 
 .nav-extended img {
@@ -97,7 +106,7 @@
 
 #lista-carrito td,
 #lista-carrito th {
-    padding: 0 5px;
+    padding: 5px 5px;
     line-height: 20px;
 }
 
@@ -111,4 +120,28 @@
 
 .delete-item {
     color: #b71c1c;
+}
+
+.carousel {
+    height: 250px;
+}
+.product-title{
+    margin: 25px auto 15px;
+}
+
+.price,
+.available {
+    color: #405d27;
+    font-weight: bold;
+    display: inline;
+}
+
+.no-available {
+    color: #b30000;
+    font-weight: bold;
+    display: inline;
+}
+
+.input-field label{
+    font-weight: 500;
 }

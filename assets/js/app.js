@@ -1,24 +1,21 @@
 const lista_carrito = document.querySelector("#lista-carrito tbody"),
     items = document.getElementById("items"),
     emptyCartBtn = document.querySelector('#vaciar-carrito'),
-    cart = document.querySelector("#lista-carrito");
+    cart = document.querySelector("#lista-carrito"),
+    addToCartBtn = document.querySelector(".add_item"),
+    buyNowBtn = document.querySelector(".buy_now");
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems);
-    var elems = document.querySelectorAll('.tooltipped');
-    var instances = M.Tooltip.init(elems);
-    var elems = document.querySelectorAll('.dropdown-trigger');
-    var instances = M.Dropdown.init(elems, { closeOnClick: false, hover: true });
-    var elems = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elems);
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems, { onOpenStart: openImage });
+    $('.carousel').carousel();
+    $('.sidenav').sidenav();
+    $('.tooltipped').tooltip();
+    
 
     items.addEventListener("click", addItemToCart);
     cart.addEventListener("click", deleteFromCart);
-    emptyCartBtn.addEventListener("click", emptyCart);
+    emptyCartBtn.addEventListener("click", emptyCartLS);
+    addToCartBtn.addEventListener("click", addItemsToCart)
 
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
     insertHTML();
@@ -26,37 +23,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 function addItemToCart(e) {
-    e.preventDefault();
     let target = e.target;
 
     if (target.classList.contains("add_cart")) {
-        let parent = target.parentElement.parentElement.parentElement;
-        const itemInfo = {
-            name: parent.querySelector(".card-title").textContent,
-            image: parent.querySelector(".card-image img").src,
-            price: parent.querySelector(".card-price strong").textContent,
-            id: parent.getAttribute("data-id"),
-            qty: 1,
-        }
+      let parent = target.parentElement.parentElement.parentElement;
+      const itemInfo = {
+          name: parent.querySelector(".card-title").textContent,
+          image: parent.querySelector(".card-image img").src,
+          price: parent.querySelector(".card-price strong").textContent,
+          id: parent.getAttribute("data-id"),
+          qty: 1,
+      }
 
-        if (articulosCarrito.some(item => item.id === itemInfo.id)) {
-            const items = articulosCarrito.map(item => {
-                if (item.id === itemInfo.id) {
-                    let quantity = parseInt(item.qty);
-                    quantity++;
-                    item.qty = quantity;
-                    return item;
-                } else {
-                    return item;
-                }
-            });
-            articulosCarrito = [...items];
-        } else {
-            articulosCarrito = [...articulosCarrito, itemInfo];
-        }
-
-        insertHTML();
+      verifyItem(itemInfo);
     }
+}
+
+function addItemsToCart() { //Same function that above but this is for the page of product
+  const itemInfo = {
+      name: document.querySelector(".product-title").textContent,
+      image: document.querySelector("#first-image img").src,
+      price: document.querySelector(".price").getAttribute("data-price"),
+      id: addToCartBtn.getAttribute("data-id"),
+      qty: document.getElementById("quantity").value === "" ? 1 : parseInt(document.getElementById("quantity").value),
+  }
+
+  verifyItem(itemInfo);
+}
+
+function verifyItem(itemInfo) {
+  if (articulosCarrito.some(item => item.id === itemInfo.id)) {
+    const items = articulosCarrito.map(item => {
+        if (item.id === itemInfo.id) {
+            let quantity = parseInt(item.qty);
+            quantity += itemInfo.qty;
+            item.qty = quantity;
+            return item;
+        } else {
+            return item;
+        }
+    });
+    articulosCarrito = [...items];
+} else {
+    articulosCarrito = [...articulosCarrito, itemInfo];
+}
+
+insertHTML();
 }
 
 function insertHTML() {
@@ -104,37 +116,11 @@ function emptyCart() {
     }
 }
 
+function emptyCartLS(){
+  emptyCart();
+  localStorage.removeItem("items");
+}
+
 function sincStorage() {
     localStorage.setItem('items', JSON.stringify(articulosCarrito));
 }
-
-function openImage(e) {
-    let target = e.target;
-
-    console.log(target)
-}
-
-
-/*
-let currentRow = document.querySelector(`#row${id} .qty`);
-        console.log(currentRow);
-        if (currentRow) {
-            document.querySelector(`#row${id} .qty`).textContent = qty + Number(document.querySelector(`#row${id} .qty`).textContent);
-        } else {
-            let row = `
-          <tr id="row${id}">
-            <td ><img src="${image}">"</td>
-            <td>${name}</td>
-            <td>$ ${price} MXN</td>
-            <td class="qty">${qty}</td>
-            <td class="delete_item"><i class="large material-icons delete_item">shopping_cart</i></td>
-          </tr>
-      `;
-
-
-            lista_carrito.innerHTML += row;
-        }
-
-
-
-*/

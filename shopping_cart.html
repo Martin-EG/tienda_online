@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/materialize.css">
@@ -11,10 +12,11 @@
 
     <title>Document</title>
 </head>
+
 <body>
-    
+
     <!-- Navbar -->
-    <nav class="nav-extended xb-6">
+    <nav class="nav-extended bm-6">
         <div class="nav-wrapper xp-5 grey darken-3">
             <a href="#" class="brand-logo"><img src="assets/img/logo.png" alt="Logo"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -34,13 +36,13 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody class="bm-5"></tbody>
                         </table>
                         <a href="#" id="buy_all" class="btn green darken-3 tm-5" style="display: block;">Comprar todo</a>
                         <a href="#" id="vaciar-carrito" class="btn blue-grey darken-1 tm-2" style="display: block;">Vaciar Carrito</a>
                     </div>
                 </li>
-            </ul> 
+            </ul>
         </div>
         <div class="nav-content xp-3 blue-grey darken-3">
             <ul class="tabs tabs-transparent show-on-medium-and-down hide-on-large-only">
@@ -61,44 +63,9 @@
     </ul>
     <!-- Navbar -->
 
-    <div class="container" id="items">
-        <h5 class="product-title">AmazonBasics, Ratón inalámbrico, Negro</h5>
-        <div class="row">
-            <div class="col sm12 m12 l4">
-                <div class="carousel">
-                    <a class="carousel-item" id="first-image"><img src="assets/img/mouse.jpg"></a>
-                    <a class="carousel-item"><img src="assets/img/mouse2.jpg"></a>
-                    <a class="carousel-item"><img src="assets/img/mouse3.jpg"></a>
-                    <a class="carousel-item"><img src="assets/img/mouse4.jpg"></a>
-                    <a class="carousel-item"><img src="assets/img/mouse5.jpg"></a>
-                  </div>
-            </div>
-            <div class="col sm12 m12 l8">
-                <strong>Precio: <p class="price" data-price="275">$275 MXN</p></strong>
-                <p class="bm-1"><strong>Descripción</strong></p>
-                <p class="tm-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae voluptas suscipit tempore nulla 
-                   reiciendis vitae accusamus, earum quo non. Nisi id omnis aspernatur placeat tempore in libero, quis 
-                   eius totam?</p>
-                <p class="available">Disponible</p>
-                <p class="no-available">No disponible</p><br>
-                <div class="input-field">
-                    <input id="quantity" type="number" min="1" style="max-width: 200px;">
-                    <label for="quantitiy">Cantidad</label>
-                </div>
-                <div class="row tm-5">
-                    <div class="col sm12 l6">
-                        <a data-id="1" class="waves-effect waves-light btn amber darken-2 add_item" style="display: block"><i class="material-icons left">shopping_cart</i> Agregar al carrito</a>
-                    </div>
-                    <div class="col sm12 l6">
-                        <a class="waves-effect waves-light btn green darken-3 buy_now" style="display: block"><i class="material-icons left">credit_card</i> Comprar ahora</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-  
     <script src="assets/js/materialize.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
+
 </html>
