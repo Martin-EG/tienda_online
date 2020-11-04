@@ -10,14 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
     $('.carousel').carousel();
     $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
-    
 
-    items.addEventListener("click", addItemToCart);
-    cart.addEventListener("click", deleteFromCart);
-    emptyCartBtn.addEventListener("click", emptyCartLS);
-    addToCartBtn.addEventListener("click", addItemsToCart)
+
+    if (items)
+        items.addEventListener("click", addItemToCart);
+    if (cart)
+        cart.addEventListener("click", deleteFromCart);
+    if (emptyCartBtn)
+        emptyCartBtn.addEventListener("click", emptyCartLS);
+    if (addToCartBtn)
+        addToCartBtn.addEventListener("click", addItemsToCart)
 
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
+    console.log(JSON.parse(localStorage.getItem('items')))
     insertHTML();
 });
 
@@ -26,49 +31,49 @@ function addItemToCart(e) {
     let target = e.target;
 
     if (target.classList.contains("add_cart")) {
-      let parent = target.parentElement.parentElement.parentElement;
-      const itemInfo = {
-          name: parent.querySelector(".card-title").textContent,
-          image: parent.querySelector(".card-image img").src,
-          price: parent.querySelector(".card-price strong").textContent,
-          id: parent.getAttribute("data-id"),
-          qty: 1,
-      }
+        let parent = target.parentElement.parentElement.parentElement;
+        const itemInfo = {
+            name: parent.querySelector(".card-title").textContent,
+            image: parent.querySelector(".card-image img").src,
+            price: parent.querySelector(".card-price strong").textContent,
+            id: parent.getAttribute("data-id"),
+            qty: 1,
+        }
 
-      verifyItem(itemInfo);
+        verifyItem(itemInfo);
     }
 }
 
 function addItemsToCart() { //Same function that above but this is for the page of product
-  const itemInfo = {
-      name: document.querySelector(".product-title").textContent,
-      image: document.querySelector("#first-image img").src,
-      price: document.querySelector(".price").getAttribute("data-price"),
-      id: addToCartBtn.getAttribute("data-id"),
-      qty: document.getElementById("quantity").value === "" ? 1 : parseInt(document.getElementById("quantity").value),
-  }
+    const itemInfo = {
+        name: document.querySelector(".product-title").textContent,
+        image: document.querySelector("#first-image img").src,
+        price: document.querySelector(".price").getAttribute("data-price"),
+        id: addToCartBtn.getAttribute("data-id"),
+        qty: document.getElementById("quantity").value === "" ? 1 : parseInt(document.getElementById("quantity").value),
+    }
 
-  verifyItem(itemInfo);
+    verifyItem(itemInfo);
 }
 
 function verifyItem(itemInfo) {
-  if (articulosCarrito.some(item => item.id === itemInfo.id)) {
-    const items = articulosCarrito.map(item => {
-        if (item.id === itemInfo.id) {
-            let quantity = parseInt(item.qty);
-            quantity += itemInfo.qty;
-            item.qty = quantity;
-            return item;
-        } else {
-            return item;
-        }
-    });
-    articulosCarrito = [...items];
-} else {
-    articulosCarrito = [...articulosCarrito, itemInfo];
-}
+    if (articulosCarrito.some(item => item.id === itemInfo.id)) {
+        const items = articulosCarrito.map(item => {
+            if (item.id === itemInfo.id) {
+                let quantity = parseInt(item.qty);
+                quantity += itemInfo.qty;
+                item.qty = quantity;
+                return item;
+            } else {
+                return item;
+            }
+        });
+        articulosCarrito = [...items];
+    } else {
+        articulosCarrito = [...articulosCarrito, itemInfo];
+    }
 
-insertHTML();
+    insertHTML();
 }
 
 function insertHTML() {
@@ -116,9 +121,9 @@ function emptyCart() {
     }
 }
 
-function emptyCartLS(){
-  emptyCart();
-  localStorage.removeItem("items");
+function emptyCartLS() {
+    emptyCart();
+    localStorage.removeItem("items");
 }
 
 function sincStorage() {

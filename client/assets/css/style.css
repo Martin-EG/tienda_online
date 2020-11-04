@@ -41,6 +41,7 @@
 .bm-1 {
     margin-bottom: 3px!important;
 }
+
 .bm-5 {
     margin-bottom: 15px!important;
 }
@@ -52,9 +53,11 @@
 .tm-1 {
     margin-top: 3px!important;
 }
+
 .tm-2 {
     margin-top: 5px!important;
 }
+
 .tm-5 {
     margin-top: 15px!important;
 }
@@ -71,6 +74,18 @@
 .sidenav img {
     margin-top: 20px;
     overflow: hidden;
+}
+
+.card {
+    height: 350px!important;
+}
+
+.card .card-image {
+    height: 150px;
+}
+
+.card .card-image img {
+    max-width: 100%;
 }
 
 .card .card-title {
@@ -125,7 +140,8 @@
 .carousel {
     height: 250px;
 }
-.product-title{
+
+.product-title {
     margin: 25px auto 15px;
 }
 
@@ -142,6 +158,6 @@
     display: inline;
 }
 
-.input-field label{
+.input-field label {
     font-weight: 500;
 }
