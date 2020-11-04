@@ -31,7 +31,7 @@
                                     <span class="card-title"><?php echo $row_products['product_name'] ?></span>
                                     <span class="card-price">$<strong><?php echo $row_products['product_price'] ?></strong> USD</span>
                                     <div class="card-action">
-                                        <a href="product.html" class="waves-effect waves-light btn blue-grey darken-1" style="display: block">See more</a>
+                                        <a href="product.php?id=<?php echo $row_products['product_id'] ?>" class="waves-effect waves-light btn blue-grey darken-1" style="display: block">See more</a>
                                     </div>
                                 </div>
                             </div>
