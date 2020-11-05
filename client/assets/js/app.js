@@ -101,9 +101,9 @@ function insertHTML() {
           </td>
           <td>${item.name}</td>
           <td>${item.price}</td>
-          <td class="qty">${item.qty} </td>
+          <td class="qty${item.id}">${item.qty} </td>
           <td>
-                <a href="#" class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
+                <a class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
           </td>
         `;
         lista_carrito.appendChild(row);
@@ -113,6 +113,17 @@ function insertHTML() {
 }
 
 function createCartList() {
+    if(articulosCarrito.length == 0)
+    {
+        let messageDiv = document.getElementById("message"),
+            cartListTable = document.getElementById("cart-list-table");
+
+        cartListTable.style.display = "none";
+        messageDiv.innerHTML = `
+            <h4>No tienes articulos en el carrito de compras</h4>
+        `;
+    }
+
     articulosCarrito.forEach(item => {
         const row = document.createElement("tr");
         row.setAttribute("id", "row_product" + item.id);
@@ -155,7 +166,6 @@ function createCartList() {
 }
 
 function deleteFromCart(e) {
-    e.preventDefault();
     let target = e.target;
 
     if (target.classList.contains("delete-item")) {
@@ -208,10 +218,12 @@ function verificarCantidad(target) {
 
 function updatePrice(target) {
     let id = target.getAttribute("data-id");
-    let cantidad = Number(verificarCantidad(target));
+    let qty = Number(verificarCantidad(target));
     let price = Number(document.querySelector("#row_product" + id + " #current_price span").textContent);
     let current_price = document.querySelector("#row_product" + id + " #total_price span");
 
-    cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_price.textContent) + (cantidad * price);
-    current_price.textContent = cantidad * price;
+    cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_price.textContent) + (qty * price);
+    current_price.textContent = qty * price;
+
+    verifyItem({id, qty});
 }

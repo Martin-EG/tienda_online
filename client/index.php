@@ -2,6 +2,7 @@
     include_once "includes/header.php";
     include_once "includes/navbar.php";
 
+    $busqueda = (isset($_GET['bqd']) ? $_GET['bqd'] : "");
 ?>
 
 
@@ -10,7 +11,21 @@
 <div class="container" id="items">
     <div class="row">
         <?php
-            $query_products = "SELECT * FROM products WHERE product_active = 1";
+            switch($busqueda)
+            {
+                case "categories":
+                    $query_products = "SELECT * FROM products WHERE product_active = 1";
+                    break;
+                case "new":
+                    $query_products = "SELECT * FROM products WHERE product_active = 1 ORDER BY `products`.`product_id` DESC LIMIT 10";
+                    break;
+                case "tendencies";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1";
+                    break;
+                default:
+                    $query_products = "SELECT * FROM products WHERE product_active = 1";
+                    break;
+            }
             $result_products = $connection->query($query_products);
 
             if($result_products)
@@ -20,7 +35,6 @@
                     while($row_products = $result_products->fetch_assoc())
                     {
                         ?>
-                        
                         <div class="col s12 m6 l4">
                             <div class="card hoverable" data-id="<?php echo $row_products['product_id'] ?>">
                                 <div class="card-image">
@@ -36,28 +50,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <?php
                     }
                 }
             }
         
         ?>
-        <!-- <div class="col s12 m6 l4">
-            <div class="card hoverable" data-id="1">
-                <div class="card-image">
-                    <img src="assets/img/mouse.jpg">
-                    <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped add_cart" data-position="left" data-tooltip="Add to cart"><i class="material-icons add_cart">add_shopping_cart</i></a>
-                </div>
-                <div class="card-content">
-                    <span class="card-title">AmazonBasics, Ratón inalámbrico, Negro</span>
-                    <span class="card-price">$<strong>275</strong> MXN / $<strong>13.09</strong> USD</span>
-                    <div class="card-action">
-                        <a href="product.html" class="waves-effect waves-light btn blue-grey darken-1" style="display: block">See more</a>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 

@@ -34,10 +34,10 @@
                 <input id="search" type="search" placeholder="Search an item">
             </ul>
             <ul class="tabs tabs-transparent hide-on-med-and-down">
-                <li class="tab"><a href="#">Todo</a></li>
-                <li class="tab"><a href="#">Categorias</a></li>
-                <li class="tab"><a href="#">Nuevos productos</a></li>
-                <li class="tab"><a href="#">Lo mas vendido</a></li>
+                <li class="tab"><a href="index.php">Todo</a></li>
+                <li class="tab"><a href="index.php?bqd=categories">Categorias</a></li>
+                <li class="tab"><a href="index.php?bqd=new">Nuevos productos</a></li>
+                <li class="tab"><a href="index.php?bqd=tendencies">Lo mas vendido</a></li>
             </ul>
         </div>
     </nav>

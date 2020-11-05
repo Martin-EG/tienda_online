@@ -6,7 +6,10 @@
 <div class="container">
     <h3>Shopping Cart</h3>
     <div class="row">
-        <div class="col s12 m12 l12">
+        <div class="col sm12" id="message">
+            
+        </div>
+        <div class="col s12 m12 l12" id="cart-list-table">
             <table>
                 <tbody id="cart-list">
                 </tbody>

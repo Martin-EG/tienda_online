@@ -25,10 +25,6 @@
                         <div class="col sm12 m12 l4">
                             <div class="carousel">                                
                                 <a class="carousel-item" id="first-image"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
-                                <!-- <a class="carousel-item"><img src="assets/img/mouse2.jpg"></a>
-                                <a class="carousel-item"><img src="assets/img/mouse3.jpg"></a>
-                                <a class="carousel-item"><img src="assets/img/mouse4.jpg"></a>
-                                <a class="carousel-item"><img src="assets/img/mouse5.jpg"></a> -->
                             </div>
                         </div>
                         <div class="col sm12 m12 l8">
