@@ -8,16 +8,16 @@
     <div class="row">
         <div class="col s12 m12 l12">
             <table>
-                <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>Informacion</th>
-                        <th>Costo</th>
-                    </tr>
-                </thead>
                 <tbody id="cart-list">
-
                 </tbody>
+                <tfoot>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td id="total" class="center-align">
+                        Total: <p class="price">$<span>0</span> USD</p>
+                    </td>
+                </tfoot>
             </table>
         </div>
     </div>

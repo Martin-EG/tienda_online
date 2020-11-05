@@ -79,34 +79,43 @@
 .dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
+}
+
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
-  
-  /* Links inside the dropdown */
-  .dropdown-content a {
+}
+
+
+/* Links inside the dropdown */
+
+.dropdown-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {background-color: #f1f1f1}
-  
-  /* Show the dropdown menu on hover */
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+}
 
+
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 
 .card {
     height: 350px!important;
@@ -116,6 +125,7 @@
     height: 150px;
     text-align: center;
 }
+
 .card .card-image img {
     max-height: 100%;
     width: auto;
@@ -189,6 +199,13 @@
     display: inline;
 }
 
+.sm-link {
+    color: #039be5;
+    font-weight: bold;
+    display: inline;
+    cursor: pointer;
+}
+
 .no-available {
     color: #b30000;
     font-weight: bold;
@@ -199,9 +216,8 @@
     font-weight: 500;
 }
 
-
 .collapsible-header,
-.sidenav li > a{
+.sidenav li>a {
     color: rgba(0, 0, 0, 0.87);
     display: block;
     font-size: 18px;
@@ -211,15 +227,34 @@
     padding: 0 32px;
 }
 
-.collapsible-body li a{
+.collapsible-body li a {
     font-size: 14px;
     font-weight: 400;
     height: 32px;
     line-height: 32px;
 }
 
-.title{
+.title {
     font-size: 20px;
     font-weight: 600;
     display: block;
+}
+
+.image-cell {
+    width: 20%;
+}
+
+.desc-cell {
+    width: 50%;
+}
+
+.quantity-cell,
+.price-cell {
+    width: 15%;
+    text-align: center;
+}
+
+.quantity-cell input {
+    width: 50%!important;
+    margin: auto 25%!important;
 }

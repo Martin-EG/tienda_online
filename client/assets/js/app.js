@@ -4,7 +4,8 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     cart = document.querySelector("#lista-carrito"),
     addToCartBtn = document.querySelector(".add_item"),
     buyNowBtn = document.querySelector(".buy_now"),
-    cartListTbody = document.getElementById("cart-list");
+    cartListTbody = document.getElementById("cart-list"),
+    cartListTotal = document.querySelector("#total span");
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -23,16 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (addToCartBtn)
         addToCartBtn.addEventListener("click", addItemsToCart);
     if (buyNowBtn)
-    buyNowBtn.addEventListener("click", goToShoppingCart);
+        buyNowBtn.addEventListener("click", goToShoppingCart);
 
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
     insertHTML();
 
-    if(cartListTbody)
+    if (cartListTbody) {
+        cartListTbody.addEventListener("click", deleteFromCart);
         createCartList();
+    }
 });
 
-function goToShoppingCart(){
+function goToShoppingCart() {
     addItemsToCart();
     window.location.href = "shopping_cart.php";
 }
@@ -109,42 +112,45 @@ function insertHTML() {
     sincStorage();
 }
 
-function createCartList(){
-    let total = 0;
-
+function createCartList() {
     articulosCarrito.forEach(item => {
         const row = document.createElement("tr");
-        row.setAttribute("id", "row_product"+item.id);
+        row.setAttribute("id", "row_product" + item.id);
 
         let url = `_config/ajax-functions.php?f=searchQty&i=${item.id}`,
             xmlhttp = new XMLHttpRequest();
 
-        xmlhttp.onreadystatechange = function()
-        {
-            if(this.readyState == 4 && this.status == 200)
-            {
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
                 let product = JSON.parse(this.responseText);
                 let disponible = product.product_qty;
 
                 let totalCost = item.price * item.qty;
                 row.innerHTML = `
-                    <td>  
+                    <td class="image-cell">  
                         <img src="${item.image}" width=100>
                     </td>
-                    <td>
-                        <a href="product.php?i=${item.id}" class="title">${item.name}</a>
-                        <p class="price" id="current_price">$<span>${item.price}</span> USD<p>
-                        <input type="number" min="1" max="${disponible}" value="${item.qty}" onchange="updatePrice(this)"  data-id="${item.id}">
+                    <td class="desc-cell">
+                        <a href="product.php?i=${item.id}" class="title" data-id="${item.id}">${item.name}</a>
+                        <small class="price" id="current_price">$<span>${item.price}</span> USD</small> &nbsp;&nbsp;
+                        <small class="sm-link delete-item">Eliminar producto</small>
                     </td>
-                    <td>
-                        <p class="price" id="total_price">$<span>${totalCost}</span> USD<p>
+                    <td class="quantity-cell">
+                        <input type="number" min="1" max="${disponible}" value="${item.qty}" onchange="updatePrice(this)"  data-id="${item.id}">
+                        <small>(${disponible} disponibles)</small>
+                    </td>
+                    <td class="price-cell">
+                        <p class="price" id="total_price">Total:$<span>${totalCost}</span> USD<p>
                     </td>
                 `;
                 cartListTbody.appendChild(row);
+
+                cartListTotal.textContent = totalCost + Number(cartListTotal.textContent);
             }
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
+
     });
 }
 
@@ -176,40 +182,36 @@ function sincStorage() {
     localStorage.setItem('items', JSON.stringify(articulosCarrito));
 }
 
-function verificarCantidad(target){
+function verificarCantidad(target) {
     let cantidad = Number(target.value);
     let cantidadMax = Number(target.getAttribute("max"));
 
-    if(cantidad < 0) {
+    if (cantidad < 0) {
         swal({
             title: "Error!",
             text: "Cantidad no puede ser menor a 0",
             icon: "error",
         });
         target.value = 1;
-        return false;
-    }
-    else if(cantidad > cantidadMax) {
+        return 1;
+    } else if (cantidad > cantidadMax) {
         swal({
             title: "Error!",
             text: "Cantidad no puede ser mayor a lo disponible",
             icon: "error",
         });
         target.value = cantidadMax;
-        return false;
+        return cantidadMax;
     }
-    return true;
+    return cantidad;
 }
 
-function updatePrice(target){
-    let flag_qty = verificarCantidad(target);
+function updatePrice(target) {
     let id = target.getAttribute("data-id");
-    let cantidad = Number(target.value);
-    let price = Number(document.querySelector("#row_product"+ id +" #current_price span").textContent);
+    let cantidad = Number(verificarCantidad(target));
+    let price = Number(document.querySelector("#row_product" + id + " #current_price span").textContent);
+    let current_price = document.querySelector("#row_product" + id + " #total_price span");
 
-
-    if(flag_qty)
-    {
-        document.querySelector("#row_product"+ id +" #total_price span").textContent = cantidad * price;
-    }
+    cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_price.textContent) + (cantidad * price);
+    current_price.textContent = cantidad * price;
 }
