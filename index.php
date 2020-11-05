@@ -1,4 +1,10 @@
-<div class="container" id="items">
+<?php
+    header("Location: client/index.php");
+
+?>
+
+
+<!-- <div class="container" id="items">
     <div class="row">
         <div class="col s12 m6 l4">
             <div class="card hoverable" data-id="1">
@@ -61,4 +67,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

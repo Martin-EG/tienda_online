@@ -3,13 +3,15 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     emptyCartBtn = document.querySelector('#vaciar-carrito'),
     cart = document.querySelector("#lista-carrito"),
     addToCartBtn = document.querySelector(".add_item"),
-    buyNowBtn = document.querySelector(".buy_now");
+    buyNowBtn = document.querySelector(".buy_now"),
+    cartListTbody = document.getElementById("cart-list");
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     $('.carousel').carousel();
     $('.sidenav').sidenav();
     $('.tooltipped').tooltip();
+    $('.collapsible').collapsible();
 
 
     if (items)
@@ -19,13 +21,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (emptyCartBtn)
         emptyCartBtn.addEventListener("click", emptyCartLS);
     if (addToCartBtn)
-        addToCartBtn.addEventListener("click", addItemsToCart)
+        addToCartBtn.addEventListener("click", addItemsToCart);
+    if (buyNowBtn)
+    buyNowBtn.addEventListener("click", goToShoppingCart);
 
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
-    console.log(JSON.parse(localStorage.getItem('items')))
     insertHTML();
+
+    if(cartListTbody)
+        createCartList();
 });
 
+function goToShoppingCart(){
+    addItemsToCart();
+    window.location.href = "shopping_cart.php";
+}
 
 function addItemToCart(e) {
     let target = e.target;
@@ -99,6 +109,45 @@ function insertHTML() {
     sincStorage();
 }
 
+function createCartList(){
+    let total = 0;
+
+    articulosCarrito.forEach(item => {
+        const row = document.createElement("tr");
+        row.setAttribute("id", "row_product"+item.id);
+
+        let url = `_config/ajax-functions.php?f=searchQty&i=${item.id}`,
+            xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function()
+        {
+            if(this.readyState == 4 && this.status == 200)
+            {
+                let product = JSON.parse(this.responseText);
+                let disponible = product.product_qty;
+
+                let totalCost = item.price * item.qty;
+                row.innerHTML = `
+                    <td>  
+                        <img src="${item.image}" width=100>
+                    </td>
+                    <td>
+                        <a href="product.php?i=${item.id}" class="title">${item.name}</a>
+                        <p class="price" id="current_price">$<span>${item.price}</span> USD<p>
+                        <input type="number" min="1" max="${disponible}" value="${item.qty}" onchange="updatePrice(this)"  data-id="${item.id}">
+                    </td>
+                    <td>
+                        <p class="price" id="total_price">$<span>${totalCost}</span> USD<p>
+                    </td>
+                `;
+                cartListTbody.appendChild(row);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    });
+}
+
 function deleteFromCart(e) {
     e.preventDefault();
     let target = e.target;
@@ -107,12 +156,9 @@ function deleteFromCart(e) {
         const current_item = target.parentElement.parentElement,
             item_id = current_item.querySelector("a").getAttribute("data-id");
         current_item.remove();
-
         articulosCarrito = articulosCarrito.filter(item => item.id !== item_id);
-
         insertHTML();
     }
-
 }
 
 function emptyCart() {
@@ -128,4 +174,42 @@ function emptyCartLS() {
 
 function sincStorage() {
     localStorage.setItem('items', JSON.stringify(articulosCarrito));
+}
+
+function verificarCantidad(target){
+    let cantidad = Number(target.value);
+    let cantidadMax = Number(target.getAttribute("max"));
+
+    if(cantidad < 0) {
+        swal({
+            title: "Error!",
+            text: "Cantidad no puede ser menor a 0",
+            icon: "error",
+        });
+        target.value = 1;
+        return false;
+    }
+    else if(cantidad > cantidadMax) {
+        swal({
+            title: "Error!",
+            text: "Cantidad no puede ser mayor a lo disponible",
+            icon: "error",
+        });
+        target.value = cantidadMax;
+        return false;
+    }
+    return true;
+}
+
+function updatePrice(target){
+    let flag_qty = verificarCantidad(target);
+    let id = target.getAttribute("data-id");
+    let cantidad = Number(target.value);
+    let price = Number(document.querySelector("#row_product"+ id +" #current_price span").textContent);
+
+
+    if(flag_qty)
+    {
+        document.querySelector("#row_product"+ id +" #total_price span").textContent = cantidad * price;
+    }
 }

@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="nav-extended bm-6">
         <div class="nav-wrapper xp-5 grey darken-3">
-            <a href="#" class="brand-logo"><img src="assets/img/logo.png" alt="Logo"></a>
+            <a href="index.php" class="brand-logo"><img src="assets/img/logo.png" alt="Logo"></a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right">
                 <li class="xm-1 hide-on-med-and-down"><i class="material-icons">search</i></li>
@@ -23,7 +23,7 @@
                             </thead>
                             <tbody class="bm-5"></tbody>
                         </table>
-                        <a href="#" id="buy_all" class="btn green darken-3 tm-5" style="display: block;">Comprar todo</a>
+                        <a href="shopping_cart.php" id="buy_all" class="btn green darken-3 tm-5" style="display: block;">Comprar todo</a>
                         <a href="#" id="vaciar-carrito" class="btn blue-grey darken-1 tm-2" style="display: block;">Vaciar Carrito</a>
                     </div>
                 </li>
@@ -34,16 +34,41 @@
                 <input id="search" type="search" placeholder="Search an item">
             </ul>
             <ul class="tabs tabs-transparent hide-on-med-and-down">
+                <li class="tab"><a href="#">Todo</a></li>
                 <li class="tab"><a href="#">Categorias</a></li>
                 <li class="tab"><a href="#">Nuevos productos</a></li>
                 <li class="tab"><a href="#">Lo mas vendido</a></li>
             </ul>
         </div>
     </nav>
-    <ul class="sidenav" id="mobile-demo">
-        <a href="#" class="brand-logo"><img src="assets/img/logo.png" alt="Logo"></a>
-        <li><a href="#">Categorias</a></li>
+    <ul class="sidenav collapsible" id="mobile-demo">
+        <a href="#" class="brand-logo"><img src="assets/img/logo.png" alt="Logo"></a><br>
+        <li>
+            <div class="collapsible-header">Categorias</div>
+            <div class="collapsible-body">
+            <?php 
+                $query_categories = "SELECT * FROM categories WHERE cat_active = 1";
+                $result_categories = $connection->query($query_categories);
+                if($result_categories)
+                {
+                    if($result_categories->num_rows > 0)
+                    {
+                        echo "<ul>";
+                        while($row_categories = $result_categories->fetch_assoc())
+                        {
+                            ?>
+                                <li><a href="#!" data-id="<?php echo  $row_categories['cat_id']?>" style="color: black"><span><?php echo  $row_categories['cat_name']?></span></a></li>
+                            <?php
+                        }
+                        echo "</ul>";
+                    }
+                }
+            ?>
+            </div>
+        </li>
         <li><a href="#">Nuevos productos</a></li>
         <li><a href="#">Lo mas vendido</a></li>
     </ul>
     <!-- Navbar -->
+
+
