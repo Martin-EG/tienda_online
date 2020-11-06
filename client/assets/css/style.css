@@ -258,3 +258,7 @@
     width: 50%!important;
     margin: auto 25%!important;
 }
+
+#row-categories {
+    text-align: center;
+}

@@ -35,7 +35,6 @@
             </ul>
             <ul class="tabs tabs-transparent hide-on-med-and-down">
                 <li class="tab"><a href="index.php">Todo</a></li>
-                <li class="tab"><a href="index.php?bqd=categories">Categorias</a></li>
                 <li class="tab"><a href="index.php?bqd=new">Nuevos productos</a></li>
                 <li class="tab"><a href="index.php?bqd=tendencies">Lo mas vendido</a></li>
             </ul>

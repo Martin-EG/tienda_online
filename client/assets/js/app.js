@@ -5,7 +5,9 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     addToCartBtn = document.querySelector(".add_item"),
     buyNowBtn = document.querySelector(".buy_now"),
     cartListTbody = document.getElementById("cart-list"),
-    cartListTotal = document.querySelector("#total span");
+    cartListTotal = document.querySelector("#total span"),
+    categoriesDiv = document.getElementById("row-categories"),
+    productsDiv = document.getElementById("row-products");
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -25,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
         addToCartBtn.addEventListener("click", addItemsToCart);
     if (buyNowBtn)
         buyNowBtn.addEventListener("click", goToShoppingCart);
+    if (categoriesDiv)
+        categoriesDiv.addEventListener("click", showCategory);
 
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
     insertHTML();
@@ -34,6 +38,28 @@ document.addEventListener('DOMContentLoaded', function() {
         createCartList();
     }
 });
+
+function showCategory(e) {
+    e.preventDefault();
+    let target = e.target,
+        id_cat = target.getAttribute("data-id");
+
+    if (target.classList.contains("category")) {
+        let url = `_config/ajax-functions.php?f=searchCategory&i=${id_cat}`,
+            xmlhttp = new XMLHttpRequest();
+
+        console.log(url);
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let products = this.responseText;
+                console.log(products);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+
+}
 
 function goToShoppingCart() {
     addItemsToCart();
@@ -101,7 +127,7 @@ function insertHTML() {
           </td>
           <td>${item.name}</td>
           <td>${item.price}</td>
-          <td class="qty${item.id}">${item.qty} </td>
+          <td id="qty${item.id}">${item.qty} </td>
           <td>
                 <a class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
           </td>
@@ -113,8 +139,7 @@ function insertHTML() {
 }
 
 function createCartList() {
-    if(articulosCarrito.length == 0)
-    {
+    if (articulosCarrito.length == 0) {
         let messageDiv = document.getElementById("message"),
             cartListTable = document.getElementById("cart-list-table");
 
@@ -171,6 +196,12 @@ function deleteFromCart(e) {
     if (target.classList.contains("delete-item")) {
         const current_item = target.parentElement.parentElement,
             item_id = current_item.querySelector("a").getAttribute("data-id");
+
+
+        if (cartListTotal) {
+            cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_item.querySelector('#total_price span').textContent);
+        }
+
         current_item.remove();
         articulosCarrito = articulosCarrito.filter(item => item.id !== item_id);
         insertHTML();
@@ -225,5 +256,7 @@ function updatePrice(target) {
     cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_price.textContent) + (qty * price);
     current_price.textContent = qty * price;
 
-    verifyItem({id, qty});
+    qty = qty - Number(document.querySelector(`#qty${id}`).textContent);
+
+    verifyItem({ id, qty });
 }
