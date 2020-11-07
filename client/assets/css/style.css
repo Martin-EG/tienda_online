@@ -81,6 +81,11 @@
     display: inline-block;
 }
 
+#search_button,
+.category {
+    cursor: pointer;
+}
+
 
 /* Dropdown Content (Hidden by Default) */
 

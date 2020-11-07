@@ -17,33 +17,36 @@
         {
             if($result_categories->num_rows > 0)
             {
-                echo "<ul>";
+                ?>
+                <ul>
+                    <a data-id="0" class="category btn waves-effect waves-light blue-grey darken-1"><span data-id="0" class="category ">Todo</span></a>
+                <?php
                 while($row_categories = $result_categories->fetch_assoc())
                 {
                     ?>
-                        <a data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1"><span><?php echo  $row_categories['cat_name']?></span></a>
+                        <a data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>" ><?php echo  $row_categories['cat_name']?></span></a>
                     <?php
                 }
-                echo "</ul>";
             }
         }
     ?>
+                </ul>
     </div>
     <div class="row" id="row-products">
         <?php
             switch($busqueda)
             {
                 case "new":
-                    $query_products = "SELECT * FROM products WHERE product_active = 1 ORDER BY `products`.`product_id` DESC LIMIT 10";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1 ORDER BY `products`.`product_id` DESC LIMIT 10";
                     break;
                 case "tendencies":
-                    $query_products = "SELECT * FROM products WHERE product_active = 1";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1";
                     break;
                 case "search":
 
                     break;   
                 default:
-                    $query_products = "SELECT * FROM products WHERE product_active = 1";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1";
                     break;
             }
             $result_products = $connection->query($query_products);

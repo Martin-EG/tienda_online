@@ -7,7 +7,11 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     cartListTbody = document.getElementById("cart-list"),
     cartListTotal = document.querySelector("#total span"),
     categoriesDiv = document.getElementById("row-categories"),
-    productsDiv = document.getElementById("row-products");
+    productsDiv = document.getElementById("row-products"),
+    searchBar = document.getElementById("search"),
+    searchMob = document.getElementById("searchMobile"),
+    searchBtn = document.getElementById("search_button"),
+    sidebar_cat = document.getElementById("sidebar-categories");
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,6 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (categoriesDiv)
         categoriesDiv.addEventListener("click", showCategory);
 
+    sidebar_cat.addEventListener("click", showCategory);
+
+    searchBtn.addEventListener("search", () => { searchProducts(searchBar); });
+    searchBar.addEventListener("search", () => { searchProducts(searchBar); });
+    searchMob.addEventListener("search", () => { searchProducts(searchMob); });
+
     articulosCarrito = JSON.parse(localStorage.getItem('items')) || [];
     insertHTML();
 
@@ -43,22 +53,37 @@ function showCategory(e) {
     e.preventDefault();
     let target = e.target,
         id_cat = target.getAttribute("data-id");
-
     if (target.classList.contains("category")) {
         let url = `_config/ajax-functions.php?f=searchCategory&i=${id_cat}`,
             xmlhttp = new XMLHttpRequest();
 
-        console.log(url);
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                let products = this.responseText;
-                console.log(products);
+                productsDiv.innerHTML = this.responseText;
             }
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
     }
 
+}
+
+function searchProducts(target) {
+    console.log(target)
+    let product = target.value,
+        url = `_config/ajax-functions.php?f=searchProduct`,
+        xmlhttp = new XMLHttpRequest(),
+        data = new FormData();
+
+    data.append("product", product)
+
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            productsDiv.innerHTML = this.responseText;
+        }
+    };
+    xmlhttp.open("POST", url, true);
+    xmlhttp.send(data);
 }
 
 function goToShoppingCart() {
