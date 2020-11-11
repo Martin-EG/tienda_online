@@ -64,23 +64,16 @@
 
         else if($_GET['f'] == "searchProduct")
         {
-            $product = $_POST['product'];
+            $product = "%{$_POST['product']}%";
+            $product_active = 1;
             
-            $query_selector = "SELECT * FROM products WHERE product_name like '%$product%' AND product_active = 1";
-            $result_selector = $connection->query($query_selector);
+            // $query_selector = "SELECT * FROM products WHERE product_name like '%$product%' AND product_active = 1";
+            // $result_selector = $connection->query($query_selector);
             
-            // if($product == "%%")
-            // {
-            //     $query_selector = "SELECT * FROM products WHERE product_active = 1";
-            //     $result_selector = $connection->query($query_selector);
-            // }
-            // else
-            // {
-            //     $stmt = $connection->prepare("SELECT * FROM products WHERE product_name like ? AND product_active = 1");
-            //     $stmt->bind_param("s", $product);
-            //     $result_selector = $stmt->execute();
-            // }
-
+            $stmt = $connection->prepare("SELECT * FROM products WHERE product_name like ? AND product_active = ?");
+            $stmt->bind_param("si", $product, $product_active);
+            $stmt->execute();
+            $result_selector = $stmt->get_result();
             if($result_selector)
             {
                 if($result_selector->num_rows > 0)
@@ -110,6 +103,8 @@
                     echo "<h3 class=\"center-align\">No se encontraron articulos..</h3>";
                 }
             }
+
+            $stmt->close();
         }
     }
 

@@ -69,7 +69,6 @@ function showCategory(e) {
 }
 
 function searchProducts(target) {
-    console.log(target)
     let product = target.value,
         url = `_config/ajax-functions.php?f=searchProduct`,
         xmlhttp = new XMLHttpRequest(),
@@ -172,6 +171,8 @@ function createCartList() {
         messageDiv.innerHTML = `
             <h4>No tienes articulos en el carrito de compras</h4>
         `;
+
+        return;
     }
 
     articulosCarrito.forEach(item => {
@@ -211,8 +212,11 @@ function createCartList() {
         };
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
-
     });
+
+    document.querySelector("#buy").innerHTML = `
+        <a class="waves-effect waves-light btn-large blue accent-3"><i class="material-icons right">payment</i>Pay with paypal</a>
+    `;
 }
 
 function deleteFromCart(e) {

@@ -25,6 +25,8 @@
         </div>
     </div>
 </div>
+<div class="container right-align" id="buy">
+</div>
 
 
 <?php
