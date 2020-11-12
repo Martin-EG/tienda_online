@@ -62,6 +62,11 @@
     margin-top: 15px!important;
 }
 
+.center{
+    width: 50%;
+    margin: auto 25%;
+}
+
 .nav-extended img {
     height: 55px;
     margin: 5px auto;

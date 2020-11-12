@@ -27,7 +27,10 @@
 </div>
 <div class="container right-align" id="buy">
 </div>
-
+<div id="paypal-button-container" class="center"></div>
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AQSg1F0pX0GYmNOGnpLqBsQJzAmYlg6zL1qs-Z0s3ydTJ39apNARaQv4vjsPTYOUPjtcPheoC7TehILh&currency=USD"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+</script>
 
 <?php
     include_once "includes/footer.php";

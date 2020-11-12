@@ -210,13 +210,36 @@ function createCartList() {
                 cartListTotal.textContent = totalCost + Number(cartListTotal.textContent);
             }
         };
-        xmlhttp.open("GET", url, true);
+        xmlhttp.open("GET", url, false);
         xmlhttp.send();
     });
 
-    document.querySelector("#buy").innerHTML = `
-        <a class="waves-effect waves-light btn-large blue accent-3"><i class="material-icons right">payment</i>Pay with paypal</a>
-    `;
+    // document.querySelector("#buy").innerHTML = `
+    //     <a class="waves-effect waves-light btn-large blue accent-3"><i class="material-icons right">payment</i>Pay with paypal</a>
+    // `;
+
+    paypal.Buttons({
+        createOrder: function(data, actions) 
+        {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: cartListTotal.textContent,
+                currency_code: 'USD'
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          // This function captures the funds from the transaction.
+          return actions.order.capture().then(function(details) {
+            // This function shows a transaction success message to your buyer.
+            alert('Transaction completed by ' + details.payer.name.given_name);
+            emptyCartLS();
+          });
+      }
+    }).render('#paypal-button-container');
 }
 
 function deleteFromCart(e) {
