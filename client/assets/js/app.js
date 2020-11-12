@@ -185,21 +185,21 @@ function createCartList() {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let product = JSON.parse(this.responseText);
-                let disponible = product.product_qty;
+                let { product_qty, product_name, product_price } = product;
 
-                let totalCost = item.price * item.qty;
+                let totalCost = product_price * item.qty;
                 row.innerHTML = `
                     <td class="image-cell">  
                         <img src="${item.image}" width=100>
                     </td>
                     <td class="desc-cell">
-                        <a href="product.php?i=${item.id}" class="title" data-id="${item.id}">${item.name}</a>
-                        <small class="price" id="current_price">$<span>${item.price}</span> USD</small> &nbsp;&nbsp;
+                        <a href="product.php?i=${item.id}" class="title" data-id="${item.id}">${product_name}</a>
+                        <small class="price" id="current_price">$<span>${product_price}</span> USD</small> &nbsp;&nbsp;
                         <small class="sm-link delete-item">Eliminar producto</small>
                     </td>
                     <td class="quantity-cell">
-                        <input type="number" min="1" max="${disponible}" value="${item.qty}" onchange="updatePrice(this)"  data-id="${item.id}">
-                        <small>(${disponible} disponibles)</small>
+                        <input type="number" min="1" max="${product_qty}" value="${item.qty}" onchange="updatePrice(this)"  data-id="${item.id}">
+                        <small>(${product_qty} disponibles)</small>
                     </td>
                     <td class="price-cell">
                         <p class="price" id="total_price">Total:$<span>${totalCost}</span> USD<p>
@@ -214,6 +214,7 @@ function createCartList() {
         xmlhttp.send();
     });
 
+    const price = cartListTotal.textContent;
     // document.querySelector("#buy").innerHTML = `
     //     <a class="waves-effect waves-light btn-large blue accent-3"><i class="material-icons right">payment</i>Pay with paypal</a>
     // `;
@@ -225,7 +226,7 @@ function createCartList() {
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: cartListTotal.textContent,
+                value: price,
                 currency_code: 'USD'
               }
             }]
@@ -251,7 +252,7 @@ function deleteFromCart(e) {
 
 
         if (cartListTotal) {
-            cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_item.querySelector('#total_price span').textContent);
+            updateTotalPrice();
         }
 
         current_item.remove();
@@ -305,10 +306,49 @@ function updatePrice(target) {
     let price = Number(document.querySelector("#row_product" + id + " #current_price span").textContent);
     let current_price = document.querySelector("#row_product" + id + " #total_price span");
 
-    cartListTotal.textContent = Number(cartListTotal.textContent) - Number(current_price.textContent) + (qty * price);
     current_price.textContent = qty * price;
 
     qty = qty - Number(document.querySelector(`#qty${id}`).textContent);
 
     verifyItem({ id, qty });
+
+    updateTotalPrice();
+}
+
+function updateTotalPrice(){
+    let cart_list = document.querySelectorAll("#cart-list tr");
+    let total = 0;
+    if(cart_list)
+    {
+        cart_list.forEach(row => {
+            total += Number(row.querySelector("#total_price span").textContent);
+        });
+    }
+
+    cartListTotal.textContent = total;
+
+    document.getElementById("paypal-button-container").innerHTML = "";
+    paypal.Buttons({
+        createOrder: function(data, actions) 
+        {
+          // This function sets up the details of the transaction, including the amount and line item details.
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: total,
+                currency_code: 'USD'
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          // This function captures the funds from the transaction.
+          return actions.order.capture().then(function(details) {
+            // This function shows a transaction success message to your buyer.
+            alert('Transaction completed by ' + details.payer.name.given_name);
+            emptyCartLS();
+          });
+      }
+    }).render('#paypal-button-container');
+
 }
