@@ -303,16 +303,25 @@ function verificarCantidad(target) {
 function updatePrice(target) {
     let id = target.getAttribute("data-id");
     let qty = Number(verificarCantidad(target));
-    let price = Number(document.querySelector("#row_product" + id + " #current_price span").textContent);
     let current_price = document.querySelector("#row_product" + id + " #total_price span");
+    let url = `_config/ajax-functions.php?f=searchQty&i=${id}`,
+        xmlhttp = new XMLHttpRequest();
 
-    current_price.textContent = qty * price;
+    xmlhttp.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200)
+        {
+            let product = JSON.parse(this.responseText);
+            let { product_price } = product;
 
-    qty = qty - Number(document.querySelector(`#qty${id}`).textContent);
+            current_price.textContent = qty * product_price;
+            qty = qty - Number(document.querySelector(`#qty${id}`).textContent);
+            verifyItem({ id, qty });
+            updateTotalPrice();
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
 
-    verifyItem({ id, qty });
-
-    updateTotalPrice();
 }
 
 function updateTotalPrice(){
