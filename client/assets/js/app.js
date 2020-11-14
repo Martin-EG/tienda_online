@@ -12,7 +12,10 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     searchMob = document.getElementById("searchMobile"),
     searchBtn = document.getElementById("search_button"),
     sidebar_cat = document.getElementById("sidebar-categories"),
-    shopping_cart = document.getElementById("shopping-cart");
+    shopping_cart = document.getElementById("shopping-cart"),
+    container_shopping = document.getElementById("container_shopping_cart"),
+    container_form = document.getElementById("container_information_form");
+
 let articulosCarrito = [];
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -221,32 +224,33 @@ function createCartList() {
     spinner.classList.add("no-display");
     shopping_cart.classList.remove("no-display");
 
+    
     const price = cartListTotal.textContent;
     document.querySelector("#buy").innerHTML = `
-        <a class="waves-effect waves-light btn-large blue accent-3"><i class="material-icons right">payment</i>Proceed to pay</a>
+        <a class="waves-effect waves-light btn-large blue accent-3" onclick="proceed_buy()"><i class="material-icons right">payment</i>Proceed to pay</a>
     `;
 
-    // paypal.Buttons({
-    //     createOrder: function(data, actions) {
-    //         // This function sets up the details of the transaction, including the amount and line item details.
-    //         return actions.order.create({
-    //             purchase_units: [{
-    //                 amount: {
-    //                     value: price,
-    //                     currency_code: 'USD'
-    //                 }
-    //             }]
-    //         });
-    //     },
-    //     onApprove: function(data, actions) {
-    //         // This function captures the funds from the transaction.
-    //         return actions.order.capture().then(function(details) {
-    //             // This function shows a transaction success message to your buyer.
-    //             alert('Transaction completed by ' + details.payer.name.given_name);
-    //             emptyCartLS();
-    //         });
-    //     }
-    // }).render('#paypal-button-container');
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            // This function sets up the details of the transaction, including the amount and line item details.
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: price,
+                        currency_code: 'USD'
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            // This function captures the funds from the transaction.
+            return actions.order.capture().then(function(details) {
+                // This function shows a transaction success message to your buyer.
+                saveSellData();
+                emptyCartLS();
+            });
+        }
+    }).render('#paypal-button-container');
 }
 
 function deleteFromCart(e) {
@@ -256,14 +260,13 @@ function deleteFromCart(e) {
         const current_item = target.parentElement.parentElement,
             item_id = current_item.querySelector("a").getAttribute("data-id");
 
+        current_item.remove();
+        articulosCarrito = articulosCarrito.filter(item => item.id !== item_id);
+        insertHTML();
 
         if (cartListTotal) {
             updateTotalPrice();
         }
-
-        current_item.remove();
-        articulosCarrito = articulosCarrito.filter(item => item.id !== item_id);
-        insertHTML();
     }
 }
 
@@ -340,7 +343,6 @@ function updateTotalPrice() {
     }
 
     cartListTotal.textContent = total;
-
     document.getElementById("paypal-button-container").innerHTML = "";
     paypal.Buttons({
         createOrder: function(data, actions) {
@@ -357,14 +359,26 @@ function updateTotalPrice() {
         onApprove: function(data, actions) {
             // This function captures the funds from the transaction.
             return actions.order.capture().then(function(details) {
-                // This function shows a transaction success message to your buyer.
-                alert('Transaction completed by ' + details.payer.name.given_name);
+                alert('You pay $ ' + details.platform_fee.amount.value);
+                saveSellData(details);
                 emptyCartLS();
             });
         }
     }).render('#paypal-button-container');
 
 }
+
+function proceed_buy() {
+    fade(container_shopping);
+    setTimeout(() => {
+        unfade(container_form);
+    }, 500);
+}
+
+function saveSellData(details) {
+    console.log(details)
+}
+
 
 function fade(element) {
     var op = 1; // initial opacity
@@ -376,7 +390,7 @@ function fade(element) {
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
         op -= op * 0.1;
-    }, 50);
+    }, 25);
 }
 
 function unfade(element) {
@@ -389,7 +403,5 @@ function unfade(element) {
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
         op += op * 0.1;
-    }, 10);
+    }, 25);
 }
-
-//https://stackoverflow.com/questions/6121203/how-to-do-fade-in-and-fade-out-with-javascript-and-css
