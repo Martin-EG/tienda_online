@@ -16,7 +16,8 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     container_shopping = document.getElementById("container_shopping_cart"),
     container_form = document.getElementById("container_information_form");
 
-let articulosCarrito = [];
+let articulosCarrito = [],
+    data = new FormData();
 
 document.addEventListener('DOMContentLoaded', function() {
     $('.carousel').carousel();
@@ -168,17 +169,19 @@ function insertHTML() {
 
 function createCartList() {
     const spinner = document.getElementById("spinner")
+    let messageDiv = document.getElementById("message"),
+        cartListTable = document.getElementById("cart-list-table");
 
 
     if (articulosCarrito.length == 0) {
-        let messageDiv = document.getElementById("message"),
-            cartListTable = document.getElementById("cart-list-table");
 
         spinner.classList.add("no-display");
         messageDiv.innerHTML = `
             <h4>No tienes articulos en el carrito de compras</h4>
         `;
 
+        shopping_cart.classList.remove("no-display");
+        cartListTable.classList.add("no-display");
         return;
     }
 
@@ -223,34 +226,13 @@ function createCartList() {
 
     spinner.classList.add("no-display");
     shopping_cart.classList.remove("no-display");
+    cartListTable.classList.remove("no-display");
 
-    
+
     const price = cartListTotal.textContent;
     document.querySelector("#buy").innerHTML = `
         <a class="waves-effect waves-light btn-large blue accent-3" onclick="proceed_buy()"><i class="material-icons right">payment</i>Proceed to pay</a>
     `;
-
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            // This function sets up the details of the transaction, including the amount and line item details.
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: price,
-                        currency_code: 'USD'
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            // This function captures the funds from the transaction.
-            return actions.order.capture().then(function(details) {
-                // This function shows a transaction success message to your buyer.
-                saveSellData();
-                emptyCartLS();
-            });
-        }
-    }).render('#paypal-button-container');
 }
 
 function deleteFromCart(e) {
@@ -316,9 +298,8 @@ function updatePrice(target) {
     let url = `_config/ajax-functions.php?f=searchQty&i=${id}`,
         xmlhttp = new XMLHttpRequest();
 
-    xmlhttp.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200)
-        {
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
             let product = JSON.parse(this.responseText);
             let { product_price } = product;
 
@@ -343,7 +324,61 @@ function updateTotalPrice() {
     }
 
     cartListTotal.textContent = total;
-    document.getElementById("paypal-button-container").innerHTML = "";
+}
+
+function proceed_buy() {
+    fade(container_shopping);
+    setTimeout(() => {
+        unfade(container_form);
+    }, 500);
+}
+
+function validate_form() {
+    let name = document.getElementById("first_name").value,
+        last_name = document.getElementById("last_name").value,
+        address = document.getElementById("address").value,
+        phone = document.getElementById("phone").value,
+        email = document.getElementById("email").value;
+
+    if (name === "" || last_name === "" || address === "" || phone === "" || email === "") {
+        swal({
+            title: "Error!",
+            text: "Debes llenar todos los campos",
+            icon: "error",
+        });
+        return;
+    } else {
+        document.getElementById("form_button").classList.add("no-display");
+        createPaypalButton();
+        document.getElementById("paypal-button-container").classList.remove("no-display");
+    }
+}
+
+function createPaypalButton() {
+    let count = 1,
+        total = 0;
+    articulosCarrito.forEach(item => {
+        let url = `_config/ajax-functions.php?f=searchQty&i=${item.id}`,
+            xmlhttp = new XMLHttpRequest();
+
+
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let product = JSON.parse(this.responseText);
+                let { product_price } = product;
+
+                data.append(`id_product${count}`, item.id);
+                data.append(`qty_product${count}`, item.qty);
+                total += product_price * item.qty;
+                count++;
+            }
+        };
+        xmlhttp.open("GET", url, false);
+        xmlhttp.send();
+
+        data.append("count", count)
+    });
+
     paypal.Buttons({
         createOrder: function(data, actions) {
             // This function sets up the details of the transaction, including the amount and line item details.
@@ -359,24 +394,49 @@ function updateTotalPrice() {
         onApprove: function(data, actions) {
             // This function captures the funds from the transaction.
             return actions.order.capture().then(function(details) {
-                alert('You pay $ ' + details.platform_fee.amount.value);
-                saveSellData(details);
-                emptyCartLS();
+                // This function shows a transaction success message to your buyer.
+                const { id, purchase_units } = details;
+                const { value, currency_code } = purchase_units[0].amount;
+
+                saveSellData(id, value, currency_code);
+                //emptyCartLS();
             });
         }
     }).render('#paypal-button-container');
-
 }
 
-function proceed_buy() {
-    fade(container_shopping);
-    setTimeout(() => {
-        unfade(container_form);
-    }, 500);
-}
+function saveSellData(id, value, currency_code) {
+    let name = document.getElementById("first_name").value,
+        last_name = document.getElementById("last_name").value,
+        address = document.getElementById("address").value,
+        phone = document.getElementById("phone").value,
+        email = document.getElementById("email").value,
+        url = "_config/ajax-functions.php?f=saveOrder",
+        xmlhttp = new XMLHttpRequest();
 
-function saveSellData(details) {
-    console.log(details)
+    data.append("id_paypal", id);
+    data.append("total", value);
+    data.append("currency_code", currency_code);
+    data.append("name", name);
+    data.append("last_name", last_name);
+    data.append("address", address);
+    data.append("phone", phone);
+    data.append("email", email);
+
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText)
+            if (this.responseText == "Save") {
+                swal({
+                    title: "Compra realizada",
+                    text: "La compra se ha realizado con exito! Nos comunicaremos con usted lo antes posible",
+                    icon: "success",
+                });
+            }
+        }
+    }
+    xmlhttp.open("POST", url, true);
+    xmlhttp.send(data);
 }
 
 

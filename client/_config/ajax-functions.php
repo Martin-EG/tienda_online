@@ -67,9 +67,6 @@
             $product = "%{$_POST['product']}%";
             $product_active = 1;
             
-            // $query_selector = "SELECT * FROM products WHERE product_name like '%$product%' AND product_active = 1";
-            // $result_selector = $connection->query($query_selector);
-            
             $stmt = $connection->prepare("SELECT * FROM products WHERE product_name like ? AND product_active = ?");
             $stmt->bind_param("si", $product, $product_active);
             $stmt->execute();
@@ -105,6 +102,43 @@
             }
 
             $stmt->close();
+        }
+
+        else if($_GET['f'] == "saveOrder")
+        {
+            $name = $_POST['name'];
+            $lname = $_POST['last_name'];
+            $address = $_POST['address'];
+            $phone = $_POST['phone'];
+            $email = $_POST['email'];
+            $total = $_POST['total'];
+            $currency = $_POST['currency_code'];
+            $count = $_POST['count'];
+
+            $query_insert_order = "INSERT INTO orders(order_number_products, order_client_name, order_client_lname, order_client_email, order_client_phone, order_client_address, order_total_price, order_currency_price)
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $connection->prepare($query_insert_order);
+            $stmt->bind_param("isssssds", $count, $name, $lname, $email, $phone, $address, $total, $currency);
+            if($stmt->execute())
+            {
+                $result_insert = $stmt->get_result();
+                $order_id = $connection->insert_id;
+            }
+            $stmt->close();
+
+            for($x = 1; $x < $count; $x++)
+            {
+                $id_product = $_POST['id_product'.$x];
+                $qty_product = $_POST['qty_product'.$x];
+
+                $query_insert_product = "INSERT INTO order_products(order_id, product_id, product_qty) VALUES(?, ?, ?)";
+                $stmt = $connection->prepare($query_insert_product);
+                $stmt->bind_param("iii", $order_id, $id_product, $qty_product);
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            echo "Save";
         }
     }
 

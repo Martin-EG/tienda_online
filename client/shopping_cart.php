@@ -25,7 +25,7 @@
             <div class="col sm12" id="message">
                 
             </div>
-            <div class="col s12 m12 l12" id="cart-list-table">
+            <div class="col s12 m12 l12 no-display" id="cart-list-table">
                 <table>
                     <tbody id="cart-list">
                     </tbody>
@@ -51,35 +51,38 @@
                 <div class="row">
                     <div class="input-field col s6">
                         <input id="first_name" type="text" class="validate">
-                        <label for="first_name">First Name</label>
+                        <label for="first_name">Nombre</label>
                     </div>
                     <div class="input-field col s6">
                         <input id="last_name" type="text" class="validate">
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name">Apellido</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                    <input id="address" type="text" class="validate">
-                    <label for="address">Address</label>
+                        <input id="address" type="text" class="validate">
+                        <label for="address">Dirección</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                    <input id="phone" type="text" class="validate">
-                    <label for="phone">Phone Number</label>
+                        <input id="phone" type="text" class="validate">
+                        <label for="phone">Numero telefónico</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="email" type="email" class="validate">
-                        <label for="email">Email</label>
+                        <label for="email">Correo Electronico</label>
                     </div>
                 </div>
             </form>
+            <div class="right-align" id="form_button">
+                <a class="waves-effect waves-light btn-large blue accent-3" onclick="validate_form()"><i class="material-icons right">payment</i> Save data</a>
+            </div>
         </div>
     </div>
-    <div id="paypal-button-container" class="center"></div>
+    <div id="paypal-button-container" class="center no-display"></div>
 </div>
 <script
     src="https://www.paypal.com/sdk/js?client-id=AQSg1F0pX0GYmNOGnpLqBsQJzAmYlg6zL1qs-Z0s3ydTJ39apNARaQv4vjsPTYOUPjtcPheoC7TehILh&currency=USD"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
