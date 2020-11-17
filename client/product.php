@@ -20,14 +20,16 @@
                 while($row_products = $result_products->fetch_assoc())
                 {
                     ?>
-                    <h5 class="product-title"><?php echo $row_products['product_name'] ?></h5>
+                    <h4 class="product-title"><?php echo $row_products['product_name'] ?></h4>
                     <div class="row">
-                        <div class="col sm12 m12 l4">
+                        <div class="col s12 m12 l4">
                             <div class="carousel">                                
-                                <a class="carousel-item" id="first-image"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
                             </div>
                         </div>
-                        <div class="col sm12 m12 l8">
+                        <div class="col s12 m12 l8">
                             <strong>Precio: <p class="price" data-price="<?php echo $row_products['product_price'] ?>">$<?php echo $row_products['product_price'] ?> USD</p></strong>
                             <p class="bm-1"><strong>Descripción</strong></p>
                             <p class="tm-1"><?php echo $row_products['product_description'] ?></p>
@@ -47,10 +49,10 @@
                                 <label for="quantitiy">Cantidad</label>
                             </div>
                             <div class="row tm-5">
-                                <div class="col sm12 l6">
+                                <div class="col s12 l6">
                                     <a data-id="<?php echo $product_id ?>" class="waves-effect waves-light btn amber darken-2 add_item tm-2" style="display: block"><i class="material-icons left">shopping_cart</i> Agregar al carrito</a>
                                 </div>
-                                <div class="col sm12 l6">
+                                <div class="col s12 l6">
                                     <a data-id="<?php echo $product_id ?>" href="shopping_cart.php" class="waves-effect waves-light btn green darken-3 buy_now tm-2" style="display: block"><i class="material-icons left">credit_card</i> Comprar ahora</a>
                                 </div>
                             </div>

@@ -19,11 +19,13 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
 let articulosCarrito = [],
     data = new FormData();
 
+// $('.carousel').carousel();
+$(function(){$('.carousel').carousel();});
+$('.sidenav').sidenav();
+$('.tooltipped').tooltip();
+$('.collapsible').collapsible();
+
 document.addEventListener('DOMContentLoaded', function() {
-    $('.carousel').carousel();
-    $('.sidenav').sidenav();
-    $('.tooltipped').tooltip();
-    $('.collapsible').collapsible();
 
 
     if (items)
@@ -70,7 +72,6 @@ function showCategory(e) {
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
     }
-
 }
 
 function searchProducts(target) {
@@ -228,8 +229,6 @@ function createCartList() {
     shopping_cart.classList.remove("no-display");
     cartListTable.classList.remove("no-display");
 
-
-    const price = cartListTotal.textContent;
     document.querySelector("#buy").innerHTML = `
         <a class="waves-effect waves-light btn-large blue accent-3" onclick="proceed_buy()"><i class="material-icons right">payment</i>Proceed to pay</a>
     `;
@@ -303,7 +302,7 @@ function updatePrice(target) {
             let product = JSON.parse(this.responseText);
             let { product_price } = product;
 
-            current_price.textContent = qty * product_price;
+            current_price.textContent = (qty * product_price).toFixed(2);
             qty = qty - Number(document.querySelector(`#qty${id}`).textContent);
             verifyItem({ id, qty });
             updateTotalPrice();
@@ -323,7 +322,7 @@ function updateTotalPrice() {
         });
     }
 
-    cartListTotal.textContent = total;
+    cartListTotal.textContent = total.toFixed(2);
 }
 
 function proceed_buy() {
