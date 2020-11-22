@@ -7,7 +7,7 @@
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right">
                 <li class="xm-1 hide-on-med-and-down"><i class="material-icons" id="search_button">search</i></li>
-                <li class="xm-3 hide-on-med-and-down"><input id="search" type="search"></li>
+                <li class="xm-3 hide-on-med-and-down"><input id="search" class="search" type="search"></li>
                 <li class="xm-3 submenu">
                     <a><i class="large material-icons">shopping_cart</i></a>
                     <div id="carrito">
@@ -31,7 +31,7 @@
         </div>
         <div class="nav-content xp-3 blue-grey darken-3">
             <ul class="tabs tabs-transparent show-on-medium-and-down hide-on-large-only">
-                <input id="searchMobile" type="search" placeholder="Search an item"> <i class="material-icons">search</i>
+                <input id="searchMobile" class="search" type="search" placeholder="Search an item"> <i class="material-icons">search</i>
             </ul>
             <ul class="tabs tabs-transparent hide-on-med-and-down">
                 <li class="tab"><a href="index.php?bqd=new">Nuevos productos</a></li>

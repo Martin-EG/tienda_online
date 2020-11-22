@@ -95,6 +95,12 @@
     cursor: pointer;
 }
 
+.search:focus, 
+.search:active{
+    background-color: #eeeeec!important;
+    transition: all 5s ease-in-out;
+}
+
 
 /* Dropdown Content (Hidden by Default) */
 
