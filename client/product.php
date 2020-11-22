@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col s12 m12 l4">
                             <div class="carousel">                                
-                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <a class="carousel-item" id="first-image"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
                                 <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
                                 <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
                             </div>
