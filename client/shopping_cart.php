@@ -78,7 +78,7 @@
                 </div>
             </form>
             <div class="right-align" id="form_button">
-                <a class="waves-effect waves-light btn-large blue accent-3" onclick="validate_form()"><i class="material-icons right">payment</i> Save data</a>
+                <a class="waves-effect waves-light btn-large blue accent-3" onclick="validate_form()"><i class="material-icons right">payment</i> Guardar datos</a>
             </div>
         </div>
     </div>

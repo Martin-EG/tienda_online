@@ -142,17 +142,13 @@
 }
 
 .card .card-image {
-    height: 150px;
     text-align: center;
 }
 
 .card .card-image img {
     max-height: 100%;
-    width: auto;
-}
-
-.card .card-image img {
     max-width: 100%;
+    width: auto;
 }
 
 .card .card-title {
@@ -162,6 +158,10 @@
 
 .card .card-price {
     font-size: 16px;
+}
+
+.card .card-information {
+    height: 100px;
 }
 
 .submenu {
@@ -184,6 +184,10 @@
     height: auto;
     /* min-height: 400px; */
     min-width: 400px;
+}
+
+#items li{
+    display: inline;
 }
 
 #lista-carrito td,
@@ -283,6 +287,8 @@
     text-align: center;
 }
 
+
+/* LOADER */
 .sk-circle {
     margin: 100px auto;
     width: 40px;

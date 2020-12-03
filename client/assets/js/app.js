@@ -26,8 +26,6 @@ $('.tooltipped').tooltip();
 $('.collapsible').collapsible();
 
 document.addEventListener('DOMContentLoaded', function() {
-
-
     if (items)
         items.addEventListener("click", addItemToCart);
     if (cart)
@@ -159,7 +157,7 @@ function insertHTML() {
           <td>${item.price}</td>
           <td id="qty${item.id}">${item.qty} </td>
           <td>
-                <a class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
+                <a href="#" class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
           </td>
         `;
         lista_carrito.appendChild(row);
@@ -230,7 +228,7 @@ function createCartList() {
     cartListTable.classList.remove("no-display");
 
     document.querySelector("#buy").innerHTML = `
-        <a class="waves-effect waves-light btn-large blue accent-3" onclick="proceed_buy()"><i class="material-icons right">payment</i>Proceed to pay</a>
+        <a class="waves-effect waves-light btn-large blue accent-3" onclick="proceed_buy()"><i class="material-icons right">payment</i>Proceder a pagar</a>
     `;
 }
 

@@ -40,14 +40,16 @@
                         <div class=\"col s12 m6 l4\">
                             <div class=\"card hoverable\" data-id=\"{$row_selector['product_id']}\">
                                 <div class=\"card-image\">
-                                    <img src=\"../app/{$row_selector['product_image']}\" class=\"tm-2\">
+                                    <img src=\"../app/{$row_selector['product_image']}\" class=\"tm-2\" height=\"150\">
                                     <a class=\"btn-floating halfway-fab waves-effect waves-light red tooltipped add_cart\" data-position=\"left\" data-tooltip=\"Add to cart\"><i class=\"material-icons add_cart\">add_shopping_cart</i></a>
                                 </div>
                                 <div class=\"card-content\">
-                                    <span class=\"card-title\">{$row_selector['product_name']}</span>
-                                    <span class=\"card-price\">\$<strong>{$row_selector['product_price']}</strong> USD</span>
+                                    <div class=\"card-information\">
+                                        <span class=\"card-title\">{$row_selector['product_name']}</span>
+                                        <span class=\"card-price\">\$<strong>{$row_selector['product_price']}</strong> USD</span>
+                                    </div>
                                     <div class=\"card-action\">
-                                        <a href=\"product.php?i={$row_selector['product_id']}\" class=\"waves-effect waves-light btn blue-grey darken-1\" style=\"display: block\">See more</a>
+                                        <a href=\"product.php?i={$row_selector['product_id']}\" class=\"waves-effect waves-light btn blue-grey darken-1\" style=\"display: block\">Ver detalles</a>
                                     </div>
                                 </div>
                             </div>
@@ -80,14 +82,16 @@
                         <div class=\"col s12 m6 l4\">
                             <div class=\"card hoverable\" data-id=\"{$row_selector['product_id']}\">
                                 <div class=\"card-image\">
-                                    <img src=\"../app/{$row_selector['product_image']}\" class=\"tm-2\">
+                                    <img src=\"../app/{$row_selector['product_image']}\" class=\"tm-2\" height=\"150\">
                                     <a class=\"btn-floating halfway-fab waves-effect waves-light red tooltipped add_cart\" data-position=\"left\" data-tooltip=\"Add to cart\"><i class=\"material-icons add_cart\">add_shopping_cart</i></a>
                                 </div>
                                 <div class=\"card-content\">
-                                    <span class=\"card-title\">{$row_selector['product_name']}</span>
-                                    <span class=\"card-price\">\$<strong>{$row_selector['product_price']}</strong> USD</span>
+                                    <div class=\"card-information\">
+                                        <span class=\"card-title\">{$row_selector['product_name']}</span>
+                                        <span class=\"card-price\">\$<strong>{$row_selector['product_price']}</strong> USD</span>
+                                    </div>
                                     <div class=\"card-action\">
-                                        <a href=\"product.php?i={$row_selector['product_id']}\" class=\"waves-effect waves-light btn blue-grey darken-1\" style=\"display: block\">See more</a>
+                                        <a href=\"product.php?i={$row_selector['product_id']}\" class=\"waves-effect waves-light btn blue-grey darken-1\" style=\"display: block\">See details</a>
                                     </div>
                                 </div>
                             </div>

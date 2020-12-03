@@ -9,7 +9,7 @@
 
 
 <div class="container" id="items">
-    <div class="row hide-on-med-and-down" id="row-categories">
+    <header class="row hide-on-med-and-down" id="row-categories">
     <?php 
         $query_categories = "SELECT * FROM categories WHERE cat_active = 1";
         $result_categories = $connection->query($query_categories);
@@ -19,19 +19,19 @@
             {
                 ?>
                 <ul>
-                    <a data-id="0" class="category btn waves-effect waves-light blue-grey darken-1"><span data-id="0" class="category ">Todo</span></a>
+                    <li><a href="#" data-id="0" class="category btn waves-effect waves-light blue-grey darken-1"><span data-id="0" class="category ">Todo</span></a></li>
                 <?php
                 while($row_categories = $result_categories->fetch_assoc())
                 {
                     ?>
-                        <a data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>" ><?php echo  $row_categories['cat_name']?></span></a>
+                        <li><a href="#" data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>" ><?php echo  $row_categories['cat_name']?></span></a></li>
                     <?php
                 }
             }
         }
     ?>
                 </ul>
-    </div>
+    </header>
     <div class="row" id="row-products">
         <?php
             switch($busqueda)
@@ -61,14 +61,16 @@
                         <div class="col s12 m6 l4">
                             <div class="card hoverable" data-id="<?php echo $row_products['product_id'] ?>">
                                 <div class="card-image">
-                                    <img src="<?php echo "../app/".$row_products['product_image'] ?>" class="tm-2">
-                                    <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped add_cart" data-position="left" data-tooltip="Add to cart"><i class="material-icons add_cart">add_shopping_cart</i></a>
+                                    <img src="<?php echo "../app/".$row_products['product_image'] ?>" alt="<?php echo $row_products['product_name'] ?>" class="tm-2" height="150">
+                                    <a href="#" class="btn-floating halfway-fab waves-effect waves-light red tooltipped add_cart" data-position="left" data-tooltip="Agregar al carrito"><i class="material-icons add_cart">add_shopping_cart</i></a>
                                 </div>
                                 <div class="card-content">
-                                    <span class="card-title"><?php echo $row_products['product_name'] ?></span>
-                                    <span class="card-price">$<strong><?php echo $row_products['product_price'] ?></strong> USD</span>
+                                    <div class="card-information">
+                                        <span class="card-title"><?php echo $row_products['product_name'] ?></span>
+                                        <span class="card-price">$<strong><?php echo $row_products['product_price'] ?></strong> USD</span>
+                                    </div>
                                     <div class="card-action">
-                                        <a href="product.php?i=<?php echo $row_products['product_id'] ?>" class="waves-effect waves-light btn blue-grey darken-1" style="display: block">See more</a>
+                                        <a href="product.php?i=<?php echo $row_products['product_id'] ?>" class="waves-effect waves-light btn blue-grey darken-1" style="display: block">Ver detalles</a>
                                     </div>
                                 </div>
                             </div>
