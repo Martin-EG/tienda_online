@@ -85,7 +85,7 @@
     <div id="paypal-button-container" class="center no-display"></div>
 </div>
 <script
-    src="https://www.paypal.com/sdk/js?client-id=AQSg1F0pX0GYmNOGnpLqBsQJzAmYlg6zL1qs-Z0s3ydTJ39apNARaQv4vjsPTYOUPjtcPheoC7TehILh&currency=USD"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+    src="https://www.paypal.com/sdk/js?client-id=AZwBLvHBUymJCeAx0fLZzZvQGnJtCRp_8_BGeJ_lY7VKik18iCzvn20i-H_Hg-aa9c_m-Zc3N0PG4L1M&currency=USD"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
 </script>
 
 <?php
