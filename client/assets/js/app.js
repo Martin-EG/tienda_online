@@ -396,7 +396,7 @@ function createPaypalButton() {
                 const { value, currency_code } = purchase_units[0].amount;
 
                 saveSellData(id, value, currency_code);
-                //emptyCartLS();
+                emptyCartLS();
             });
         }
     }).render('#paypal-button-container');
