@@ -11,12 +11,11 @@ const lista_carrito = document.querySelector("#lista-carrito tbody"),
     searchBar = document.getElementById("search"),
     searchMob = document.getElementById("searchMobile"),
     searchBtn = document.getElementById("search_button"),
-    sidebar_cat = document.getElementById("sidebar-categories"),
     shopping_cart = document.getElementById("shopping-cart"),
     container_shopping = document.getElementById("container_shopping_cart"),
     container_form = document.getElementById("container_information_form");
 
-let articulosCarrito = [],
+var articulosCarrito = [],
     data = new FormData();
 
 // $('.carousel').carousel();
@@ -38,8 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         buyNowBtn.addEventListener("click", goToShoppingCart);
     if (categoriesDiv)
         categoriesDiv.addEventListener("click", showCategory);
-
-    sidebar_cat.addEventListener("click", showCategory);
 
     searchBtn.addEventListener("search", () => { searchProducts(searchBar); });
     searchBar.addEventListener("search", () => { searchProducts(searchBar); });
@@ -154,8 +151,8 @@ function insertHTML() {
                 <img src="${item.image}" width=100>
           </td>
           <td>${item.name}</td>
-          <td>${item.price}</td>
-          <td id="qty${item.id}">${item.qty} </td>
+          <td style="text-align: center;">$ ${item.price}</td>
+          <td style="text-align: center;" id="qty${item.id}">${item.qty} </td>
           <td>
                 <a href="#" class="delete-item" data-id="${item.id}"><i class="large material-icons delete-item">delete</i></a>
           </td>

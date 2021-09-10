@@ -9,44 +9,44 @@
 
 
 <div class="container" id="items">
-    <header class="row hide-on-med-and-down" id="row-categories">
-    <?php 
-        $query_categories = "SELECT * FROM categories WHERE cat_active = 1";
-        $result_categories = $connection->query($query_categories);
-        if($result_categories)
-        {
-            if($result_categories->num_rows > 0)
+    <header class="row" id="row-categories">
+        <?php 
+            $query_categories = "SELECT * FROM categories WHERE cat_active = 1";
+            $result_categories = $connection->query($query_categories);
+            if($result_categories)
             {
-                ?>
-                <ul>
-                    <li><a href="#" data-id="0" class="category btn waves-effect waves-light blue-grey darken-1"><span data-id="0" class="category ">Todo</span></a></li>
-                <?php
-                while($row_categories = $result_categories->fetch_assoc())
+                if($result_categories->num_rows > 0)
                 {
                     ?>
-                        <li><a href="#" data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>" ><?php echo  $row_categories['cat_name']?></span></a></li>
+                    <ul>
+                        <li><a href="#" data-id="0" class="category btn waves-effect waves-light blue-grey darken-1 tm-1"><span data-id="0" class="category ">Todo</span></a></li>
                     <?php
+                    while($row_categories = $result_categories->fetch_assoc())
+                    {
+                        ?>
+                            <li><a href="#" data-id="<?php echo  $row_categories['cat_id']?>" class="category btn waves-effect waves-light blue-grey darken-1 tm-1"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>" ><?php echo  $row_categories['cat_name']?></span></a></li>
+                        <?php
+                    }
+                    echo "</ul>";
                 }
             }
-        }
-    ?>
-                </ul>
+        ?>
     </header>
     <div class="row" id="row-products">
         <?php
             switch($busqueda)
             {
                 case "new":
-                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1 ORDER BY `products`.`product_id` DESC LIMIT 10";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1 ORDER BY `products`.`product_id` DESC LIMIT 10";
                     break;
                 case "tendencies":
-                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1";
                     break;
-                case "search":
-
+                case "category":
+                    $query_products = "SELECT * FROM products WHERE product_category = {$_GET['cat']} AND product_active = 1";
                     break;   
                 default:
-                    $query_products = "SELECT * FROM products WHERE product_active = 1 AND product_active = 1";
+                    $query_products = "SELECT * FROM products WHERE product_active = 1";
                     break;
             }
             $result_products = $connection->query($query_products);

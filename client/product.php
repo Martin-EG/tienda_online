@@ -25,8 +25,8 @@
                         <div class="col s12 m12 l4">
                             <div class="carousel">                                
                                 <a class="carousel-item" id="first-image"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
-                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
-                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <!-- <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a>
+                                <a class="carousel-item"><img src="<?php echo "../app/".$row_products['product_image'] ?>"></a> -->
                             </div>
                         </div>
                         <div class="col s12 m12 l8">
@@ -45,7 +45,7 @@
                             ?>
                             <br>
                             <div class="input-field">
-                                <input id="quantity" type="number" min="1" max="<?php echo $row_products['product_qty']?>" onchange="verificarCantidad(this)" style="max-width: 200px;">
+                                <input id="quantity" type="number" min="1" max="<?php echo $row_products['product_qty']?>" onchange="verificarCantidad(this)" style="max-width: 200px;" value="1">
                                 <label for="quantitiy">Cantidad</label>
                             </div>
                             <div class="row tm-5">

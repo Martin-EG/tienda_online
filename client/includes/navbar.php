@@ -8,7 +8,7 @@
             <ul id="nav-mobile" class="right">
                 <li class="xm-1 hide-on-med-and-down"><i class="material-icons" id="search_button">search</i></li>
                 <li class="xm-3 hide-on-med-and-down"><input id="search" class="search grey" type="search"></li>
-                <li class="xm-3 submenu">
+                <li class="xm-3 bm-3 submenu">
                     <a href="#"><i class="large material-icons">shopping_cart</i></a>
                     <div id="carrito">
                         <table id="lista-carrito">
@@ -48,7 +48,7 @@
             <div class="collapsible-header">Categorias</div>
             <div class="collapsible-body">
                 <ul id="sidebar-categories">
-                    <li><a href="#" data-id="0" style="color: black" class="category"><span class="category" data-id="0">Todo</span></a></li>
+                    <li><a href="index.php" data-id="0" style="color: black" class="category"><span class="category" data-id="0">Todo</span></a></li>
             <?php 
                 $query_categories = "SELECT * FROM categories WHERE cat_active = 1";
                 $result_categories = $connection->query($query_categories);
@@ -59,7 +59,11 @@
                         while($row_categories = $result_categories->fetch_assoc())
                         {
                             ?>
-                                <li><a href="#" data-id="<?php echo  $row_categories['cat_id']?>" style="color: black" class="category"><span class="category" data-id="<?php echo  $row_categories['cat_id']?>"><?php echo  $row_categories['cat_name']?></span></a></li>
+                                <li>
+                                    <a href="index.php?bqd=category&cat=<?php echo  $row_categories['cat_id']?>"  style="color: black">
+                                        <?php echo  $row_categories['cat_name']?>
+                                    </a>
+                                </li>
                             <?php
                         }
                     }
